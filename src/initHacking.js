@@ -4,7 +4,7 @@ const filesToDownload = [
   'spider.js',
   'grow.js',
   'hack.js',
-  'initHacking.js',
+  'mainHack.js',
   'weaken.js',
   'playerServers.js',
   'killAll.js',
