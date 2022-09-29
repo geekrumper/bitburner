@@ -1,10 +1,10 @@
 const baseUrl = 'https://raw.githubusercontent.com/geekrumper/bitburner/master/src/'
 const filesToDownload = [
   'common.js',
+  'mainHack.js',
   'spider.js',
   'grow.js',
   'hack.js',
-  'mainHack.js',
   'weaken.js',
   'playerServers.js',
   'killAll.js',
