@@ -33,12 +33,11 @@ function localeHHMMSS(ms = 0) {
 
 function createUUID() {
   var dt = new Date().getTime()
-  var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
     var r = (dt + Math.random() * 16) % 16 | 0
     dt = Math.floor(dt / 16)
-    return (c == 'x' ? r : (r & 0x3) | 0x8).toString(16)
+    return (c === 'x' ? r : (r & 0x3) | 0x8).toString(16)
   })
-  return uuid
 }
 
 function updateServer(ns, serverMap, host) {
@@ -49,7 +48,6 @@ function updateServer(ns, serverMap, host) {
     maxMoney: ns.getServerMaxMoney(host),
     growth: ns.getServerGrowth(host),
     minSecurityLevel: ns.getServerMinSecurityLevel(host),
-    baseSecurityLevel: ns.getServerBaseSecurityLevel(host),
     ram: ns.getServerMaxRam(host),
     connections: ['home'],
     parent: 'home',
@@ -91,7 +89,7 @@ export async function main(ns) {
   let hostname = ns.getHostname()
 
   if (hostname !== 'home') {
-    throw new Exception('Run the script from home')
+    throw new Error('Run the script from home')
   }
 
   while (true) {
@@ -102,7 +100,7 @@ export async function main(ns) {
 
     let action = purchasedServers.length < settings.maxPlayerServers ? settings.actions.BUY : settings.actions.UPGRADE
 
-    if (action == settings.actions.BUY) {
+    if (action === settings.actions.BUY) {
       let smallestCurrentServer = purchasedServers.length ? ns.getServerMaxRam(purchasedServers[0]) : 0
       let targetRam = Math.max(settings.minGbRam, smallestCurrentServer)
 
@@ -160,11 +158,11 @@ export async function main(ns) {
             if (ns.getServerMoneyAvailable('home') * settings.totalMoneyAllocation >= targetRam * settings.gbRamCost) {
               let hostname = `pserv-${targetRam}-${createUUID()}`
 
-              await ns.killall(purchasedServers[0])
+              ns.killall(purchasedServers[0])
               await ns.sleep(10)
-              const serverDeleted = await ns.deleteServer(purchasedServers[0])
+              const serverDeleted = ns.deleteServer(purchasedServers[0])
               if (serverDeleted) {
-                hostname = await ns.purchaseServer(hostname, targetRam)
+                hostname = ns.purchaseServer(hostname, targetRam)
 
                 if (hostname) {
                   ns.tprint(`[${localeHHMMSS()}] Upgraded: ${purchasedServers[0]} into server: ${hostname} (${targetRam} GB)`)

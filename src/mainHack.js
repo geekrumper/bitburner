@@ -212,7 +212,7 @@ export async function main(ns) {
       )}`
     )
     ns.tprint(
-      `[${localeHHMMSS()}] Stock values: baseSecurity: ${serverMap.servers[bestTarget].baseSecurityLevel}; minSecurity: ${serverMap.servers[bestTarget].minSecurityLevel
+      `[${localeHHMMSS()}] Stock values: minSecurity: ${serverMap.servers[bestTarget].minSecurityLevel
       }; maxMoney: $${numberWithCommas(parseInt(serverMap.servers[bestTarget].maxMoney, 10))}`
     )
     ns.tprint(`[${localeHHMMSS()}] Current values: security: ${Math.floor(securityLevel * 1000) / 1000}; money: $${numberWithCommas(parseInt(money, 10))}`)
